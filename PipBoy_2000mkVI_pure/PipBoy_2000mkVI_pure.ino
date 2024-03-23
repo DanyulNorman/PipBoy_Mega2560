@@ -16,7 +16,10 @@
 
 
 const int8_t lightPin_GIGER = 31;
-const int8_t pin_GIGER = 51;
+const int8_t lightPin_RADIO = 33;
+const int8_t pin_GIGER1 = 32;
+const int8_t pin_GIGER2 = 34;
+const int8_t pin_GIGER3 = 36;
 Rotary rotary = Rotary(35, 37); 
 const int8_t buttonPin_DIAL = 39;
 const int8_t buttonPin_STAT = 45;
@@ -362,6 +365,22 @@ void set_STATUS(uint8_t index){
   tft.print("STIMPAK (1)");
   tft.setCursor(200, 420);
   tft.print("RADAWAY (0)");
+
+  uint16_t lineY = 114;
+  tft.fillRect(100,lineY,50,50,DARK_GREEN);  
+  tft.drawBitmap(100+12,lineY+10,(const unsigned char*)radiation,24,24,RA8875_GREEN);
+  tft.drawBitmap(100+30,lineY+30,(const unsigned char*)clock_sm,15,15,RA8875_GREEN);//
+  
+  lineY+=55;
+  tft.fillRect(100,lineY,50,50,DARK_GREEN);  
+  tft.drawBitmap(100+12,lineY+10,(const unsigned char*)food,24,24,RA8875_GREEN);
+  tft.drawBitmap(100+30,lineY+30,(const unsigned char*)clock_sm,15,15,RA8875_GREEN);//
+  lineY+=55;
+
+  tft.fillRect(100,lineY,50,50,DARK_GREEN);  
+  tft.drawBitmap(100+12,lineY+10,(const unsigned char*)pill,24,24,RA8875_GREEN);//clock_sm
+  tft.drawBitmap(100+30,lineY+30,(const unsigned char*)clock_sm,15,15,RA8875_GREEN);//
+  
   showVaulBoy(true);
 
     
@@ -369,6 +388,7 @@ void set_STATUS(uint8_t index){
   
 
 }
+int delayTime;
 void set_EFFECTS(){
   uint16_t lineY = 120;
   uint16_t lineY2 = 440;
@@ -377,11 +397,10 @@ void set_EFFECTS(){
   tft.fillRect(60,lineY,50,50,DARK_GREEN);  
   tft.fillRect(115,lineY,600,50,DARK_GREEN);
   tft.setCursor(125, lineY+30);
-  tft.print("Well Rested:");
+  tft.print("Radiation:");
   tft.setCursor(350, lineY+30);
-  tft.print("CHAR +3  END +2");
+  tft.print("STR -3  END -2");
   tft.drawBitmap(60+12,lineY+10,(const unsigned char*)radiation,24,22,RA8875_GREEN);
-
   lineY+=55;
   tft.fillRect(60,lineY,50,50,DARK_GREEN);
   tft.fillRect(115,lineY,600,50,DARK_GREEN);
@@ -389,15 +408,15 @@ void set_EFFECTS(){
   tft.print("Hungry:");
   tft.setCursor(350, lineY+30);
   tft.print("CHAR -1  END -2");
-  tft.drawBitmap(60+18,lineY+10,(const unsigned char*)voltage,14,24,RA8875_GREEN);
+  tft.drawBitmap(60+12,lineY+10,(const unsigned char*)food,24,24,RA8875_GREEN);
   lineY+=55;
   tft.fillRect(60,lineY,50,50,DARK_GREEN);
   tft.fillRect(115,lineY,600,50,DARK_GREEN);
   tft.setCursor(125, lineY+30);
-  tft.print("Dehydrated:");
+  tft.print("Addicted:");
   tft.setCursor(350, lineY+30);
-  tft.print("INT -1  LCK -2  END -2");
-  tft.drawBitmap(60+12,lineY+10,(const unsigned char*)shield,19,24,RA8875_GREEN);
+  tft.print("INT -5  LCK -2  END -2");
+  tft.drawBitmap(60+12,lineY+10,(const unsigned char*)pill,24,24,RA8875_GREEN);
   lineY+=55;
   
   
@@ -411,6 +430,9 @@ void set_EFFECTS(){
   // tft.setCursor(150, 230);
   // tft.print("     INDUSTRIES");
   // tft.drawBitmap(140,250,(const unsigned char*)vault_tec_logo,180,73,RA8875_GREEN);
+  //playGigerTones();
+  playGiger = true;
+  delayTime = random(50, 100);
 
 }
 uint8_t prevIndex;
@@ -451,7 +473,7 @@ void set_SPECIAL(uint8_t index){
           
       }
       uint16_t tX = 480;
-      uint16_t tY = 105;
+      uint16_t tY = 95;
       //set the image and desc
       tft.fillRect(410, 95,350,150,RA8875_BLACK);
       tft.setTextColor(RA8875_GREEN);
@@ -469,7 +491,7 @@ void set_SPECIAL(uint8_t index){
         tft.print((char*)pgm_read_word(&(stat_SPEC_desc[3])));    
         break;
         case 1:
-        tft.drawBitmap(tX+10,tY,(const unsigned char*)perception,122,141,RA8875_GREEN);
+        tft.drawBitmap(tX,tY,(const unsigned char*)perception,158,183,RA8875_GREEN);
         tft.print((char*)pgm_read_word(&(stat_SPEC_desc[4])));
         tft.setCursor(400, 315);
         tft.print((char*)pgm_read_word(&(stat_SPEC_desc[5])));
@@ -617,18 +639,30 @@ void clearSPECIAL(){
   }
 }
 
-void playGigerTones(){
-  int delayTime = random(100, 1000); // Random delay between 20 and 100 milliseconds  
-  tone(53,5,300);
-  tone(53,100,5);
-  tone(53,50,10);
- tone(51,5,300);
-  tone(51,100,5);
-  tone(51,50,10);
-
+void playGigerTones(int delayTime){
+   tone(53, 60, 20);
+  int delayTime2 = random(1, 10);
+  if(delayTime2 < 5){
+    digitalWrite(pin_GIGER1, LOW); 
+    digitalWrite(pin_GIGER2, HIGH); 
+    digitalWrite(pin_GIGER3, HIGH); 
+  }
+  if(delayTime2 > 5 || delayTime2 < 8){
+    digitalWrite(pin_GIGER1, LOW); 
+    digitalWrite(pin_GIGER2, HIGH); 
+    digitalWrite(pin_GIGER3, HIGH); 
+  }
+  else{
+    
+    digitalWrite(pin_GIGER1, HIGH); 
+    digitalWrite(pin_GIGER2, HIGH); 
+    digitalWrite(pin_GIGER3, HIGH); 
+  }
   //TODO: PULSE NEEDLE
-  delay(delayTime);
- 
+  delay(delayTime * delayTime2);
+  digitalWrite(pin_GIGER1, HIGH); 
+    digitalWrite(pin_GIGER2, HIGH); 
+    digitalWrite(pin_GIGER3, HIGH); 
 }
 void HandleScroll(int8_t scrollIndex,int8_t tabNumber,int8_t sectionNumber){
     ///what tab are we on?
@@ -709,29 +743,63 @@ void boot(){
     // }
     // //set_TAB_outline(0);
     // delay(1500);
-  tft.fillScreen(RA8875_BLACK);
-    int startupTextCount = sizeof(BOOTTEXT) / sizeof(BOOTTEXT[0]);
-    // Print each line of the text array 
-    for (int8_t i = 0; i < startupTextCount; i++) { // Double the loop count to repeat STARTUPTEXT array
-        int8_t textIndex = i % startupTextCount; // Get the index within the STARTUPTEXT array
+  // tft.fillScreen(RA8875_BLACK);
+  //   int startupTextCount = sizeof(BOOTTEXT) / sizeof(BOOTTEXT[0]);
+  //   // Print each line of the text array 
+  //   for (int8_t i = 0; i < startupTextCount; i++) { // Double the loop count to repeat STARTUPTEXT array
+  //       int8_t textIndex = i % startupTextCount; // Get the index within the STARTUPTEXT array
         
-        tft.setCursor(50,textHeight); // Adjust the y-coordinate
-        tft.setFont(&FreeMonoBold12pt7b);        
-        tft.print((char*)pgm_read_word(&(BOOTTEXT[textIndex])));
+  //       tft.setCursor(50,textHeight); // Adjust the y-coordinate
+  //       tft.setFont(&FreeMonoBold12pt7b);        
+  //       tft.print((char*)pgm_read_word(&(BOOTTEXT[textIndex])));
+  //       tft.setCursor(50, 100);
+  //       int delayTime = random(100, 300); // Random delay between 100 and 300 milliseconds
+  //       tone(53, 100, 15);
+  //       textHeight = textHeight + 30;
+  //       delay(delayTime);
+  //   }
+  //   delay(1500);
+  //   tone(53, 1000, 15);
+    tft.fillScreen(RA8875_BLACK);
+    int startupTextCount = sizeof(BOOTTEXT) / sizeof(BOOTTEXT[0]);
+
+    for (int8_t i = 0; i < startupTextCount; i++) {
+        int8_t textIndex = i % startupTextCount;
+        const char *text = (char*)pgm_read_word(&(BOOTTEXT[textIndex])); // Get the text from PROGMEM
+        int textLength = strlen(text); // Get the length of the text
+
+        tft.setCursor(50, textHeight);
+        tft.setFont(&FreeMonoBold12pt7b);
+
+        // Print characters one by one with a short delay and tone
+        for (int j = 0; j < textLength; j++) {
+            tft.print(text[j]); // Print one character
+
+            // Play a short tone
+            tone(53, 90, 15);
+            delay(15); // Short delay between characters
+        }
+
         tft.setCursor(50, 100);
-        int delayTime = random(100, 300); // Random delay between 100 and 300 milliseconds
-        tone(53, 100, 30);
+        int delayTime = random(50, 200); // Random delay between 100 and 300 milliseconds
         textHeight = textHeight + 30;
         delay(delayTime);
     }
-    delay(1500);
 
+    delay(1500);
+    tone(53, 1000, 100);
+    delay(2000);
+    tft.fillScreen(RA8875_BLACK);
+    startupScreen();
+    delay(5000);
 }
 void setup(){
   
   pinMode(10, OUTPUT);
   pinMode(lightPin_GIGER,OUTPUT);
-  pinMode(pin_GIGER,OUTPUT);
+  pinMode(pin_GIGER1,OUTPUT);
+  pinMode(pin_GIGER2,OUTPUT);
+  pinMode(pin_GIGER3,OUTPUT);
   pinMode(buttonPin_STAT, INPUT);
   pinMode(buttonPin_ITEM, INPUT);
   pinMode(buttonPin_DATA, INPUT);
@@ -739,7 +807,6 @@ void setup(){
   pinMode(buttonPin_DIAL, INPUT_PULLUP);  
   pinMode(RA8875_INT, INPUT);
   digitalWrite(RA8875_INT, HIGH);
-  digitalWrite(pin_GIGER, LOW);
   Serial.begin(9600);
   
   /* Initialize the display using 'RA8875_480x80', 'RA8875_480x128', 'RA8875_480x272' or 'RA8875_800x480' */
@@ -760,10 +827,7 @@ void setup(){
   tft.graphicsMode();
 
   // boot();
-  // delay(2000);
-  // tft.fillScreen(RA8875_BLACK);
-  // startupScreen();
-  // delay(2000);
+
 
   tft.fillScreen(RA8875_BLACK);
   
@@ -804,7 +868,7 @@ void loop(){
   if(buttonState_ITEM == HIGH){
     if(_currentTab != 1){
       _currentTab = 1;
-      playGiger=false;
+      //playGiger=false;
       _currentScroll = 0;
       _currentSection = 0;
       tone(53,250,20);
@@ -892,9 +956,15 @@ void loop(){
  
 	
   if(playGiger){
-    playGigerTones();
+    playGigerTones(delayTime);
   }
-    	// Put in a slight delay to help debounce the reading
+  else{
+    digitalWrite(pin_GIGER1, HIGH); 
+    digitalWrite(pin_GIGER2, HIGH); 
+    digitalWrite(pin_GIGER3, HIGH); 
+  }
+    
+  // Put in a slight delay to help debounce the reading
 	delay(2);
 }
 bool isButtonBouncing() {

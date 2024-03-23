@@ -7,8 +7,7 @@ const char * const stat_SEC_STAT[90] PROGMEM = {" STATUS "," EFFECTS "," SPECIAL
 const char * const stat_SEC_ITEM[90] PROGMEM = {" APPAREL "," WEAPONS "," AID ", " MISC "};
 const char * const stat_SEC_DATA[90] PROGMEM = {" MAIN "," SIDE "," DAILY "};
 
-extern "C" const unsigned char vaultboy_status[] PROGMEM;
-extern "C" const unsigned char laser_pistol[] PROGMEM;
+
 extern "C" const unsigned char radiation[] PROGMEM;
 extern "C" const unsigned char gun[] PROGMEM;
 extern "C" const unsigned char shield[] PROGMEM;
@@ -16,6 +15,11 @@ extern "C" const unsigned char aim[] PROGMEM;
 extern "C" const unsigned char voltage[] PROGMEM;
 extern "C" const unsigned char helmet[] PROGMEM;
 extern "C" const unsigned char caps[] PROGMEM;
+extern "C" const unsigned char pill[] PROGMEM;
+extern "C" const unsigned char clock[] PROGMEM;
+extern "C" const unsigned char clock_sm[] PROGMEM;
+extern "C" const unsigned char food[] PROGMEM;
+
 extern "C" const unsigned char wgt[] PROGMEM;
 extern "C" const unsigned char strength[] PROGMEM;
 extern "C" const unsigned char perception[] PROGMEM;
@@ -24,6 +28,9 @@ extern "C" const unsigned char charisma[] PROGMEM;
 extern "C" const unsigned char intelligence[] PROGMEM;
 extern "C" const unsigned char agility[] PROGMEM;
 extern "C" const unsigned char luck[] PROGMEM;
+
+extern "C" const unsigned char vaultboy_status[] PROGMEM;
+extern "C" const unsigned char laser_pistol[] PROGMEM;
 extern "C" const unsigned char vault_tec_logo[] PROGMEM;
 extern "C" const unsigned char VaultBoy2[] PROGMEM;
 
