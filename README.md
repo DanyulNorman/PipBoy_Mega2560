@@ -1,6 +1,47 @@
-# Pip-Boy Display Controller 🤖☢️
+# Pip-Boy 3000 MkVI — Arduino OS 🤖☢️
 
-A Fallout-inspired Pip-Boy prop built on Arduino, featuring a full tabbed UI on an RA8875 TFT display — complete with Geiger counter sound effects, a Vault Boy bitmap, rotary knob navigation, and S.P.E.C.I.A.L. stats.
+[![Demo video](https://img.youtube.com/vi/vCLyTWwi2Qk/0.jpg)](https://youtu.be/vCLyTWwi2Qk)
+
+---
+
+## Origin
+
+My wife bought me the Wand Company's official Pip-Boy 3000 replica. It's a beautiful shell -- screen, dials, buttons, the whole aesthetic -- but it shipped as a display model. No actual functionality. It sat on my shelf for a couple of years, fully assembled, looking at me.
+
+Eventually I couldn't take it anymore.
+
+I had no background in Arduino, C, or hardware programming. I knew Python at a surface level and had never done embedded development. What I had was a prop that deserved to actually work, a clear vision of what "working" meant -- and the stubbornness to figure out the rest.
+
+The design constraint I set for myself: **no touchscreen cop-outs.** If the physical Pip-Boy has a rotary knob, you navigate with the rotary knob. If it has tab buttons, the tab buttons switch tabs. The analog controls had to be wired and functional. A touchscreen interface would have been faster to build and completely wrong.
+
+So I wired it up properly, learned C/C++ as I went, wrote the UI logic from scratch, extracted and converted bitmap assets from the game, and built a multi-tab OS that runs on an Arduino Mega with an RA8875 TFT display.
+
+*War never changes. But sometimes you have to write your own firmware.*
+
+---
+
+## What It Does
+
+Full tabbed interface with rotary knob navigation and physical button controls:
+
+- **STAT tab** -- S.P.E.C.I.A.L. stats with per-stat Vault Boy illustrations, HP/AP display, active effects and debuffs with Geiger counter sound and LED flicker
+- **ITEM tab** -- Scrollable weapon list with per-weapon stats
+- **DATA tab** -- Date/time display, extensible for notes and quests
+- **Boot sequence** -- Teletype-style scrolling startup text with sound and Vault-Tec splash screen
+
+Hardware: Arduino Mega 2560, Adafruit RA8875 800×480 TFT, rotary encoder, physical tab buttons, passive buzzer, Geiger LEDs. All controls wired to actual inputs -- no touch required.
+
+---
+
+| Workbench | Display running on 9V |
+|---|---|
+| ![Workbench wiring](assets/pipboy_workbench.jpg) | ![Display live](assets/pipboy_display.jpg) |
+
+[![Demo video](https://img.youtube.com/vi/vCLyTWwi2Qk/0.jpg)](https://youtu.be/vCLyTWwi2Qk)
+
+---
+
+*The full technical documentation, hardware pinout, dependencies, and known issues follow below.*
 
 ---
 
