@@ -37,8 +37,6 @@ Hardware: Arduino Mega 2560, Adafruit RA8875 800×480 TFT, rotary encoder, physi
 |---|---|
 | ![Workbench wiring](assets/pipboy_workbench.jpg) | ![Display live](assets/pipboy_display.jpg) |
 
-[![Demo video](https://img.youtube.com/vi/vCLyTWwi2Qk/0.jpg)](https://youtu.be/vCLyTWwi2Qk)
-
 ---
 
 *The full technical documentation, hardware pinout, dependencies, and known issues follow below.*
